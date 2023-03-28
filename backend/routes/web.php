@@ -17,10 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 
-Route::middleware('cors')->group(function () {
-    Route::get('/api/products', function (Request $request) {
-        return response()->json(['products' => []]);
-    });
-});
+// Route::middleware('cors')->group(function () {
+//     Route::get('/api/products', function (Request $request) {
+//         return response()->json(['products' => []]);
+//     });
+// });
