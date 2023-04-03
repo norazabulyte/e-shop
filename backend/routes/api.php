@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\OrderController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,6 +20,12 @@ use App\Http\Controllers\ProductsController;
 //     return $request->user();
 // });
 
+//CRUD:
+//CREATE - POST
+//READ   - GET
+//UPDATE - PUT
+//DELETE - DELETE
+
 Route::group(['prefix'=> 'products'], function() {
     Route::get('/', [ProductsController::class, 'index']);
     Route::get('/s/{keyword}', [ProductsController::class, 'search']);
@@ -25,4 +33,20 @@ Route::group(['prefix'=> 'products'], function() {
     Route::post('/', [ProductsController::class, 'create']);
     Route::put('/{id}', [ProductsController::class, 'edit'])->where('id', '[0-9]+');
     Route::delete('/{id}', [ProductsController::class, 'delete'])->where('id', '[0-9]+');
+});
+
+Route::group(['prefix'=> 'categories'], function() {
+    Route::get('/', [CategoriesController::class, 'index']);
+    Route::get('/{id}', [CategoriesController::class, 'singleCategory'])->where('id', '[0-9]+');
+    Route::post('/', [CategoriesController::class, 'create']);
+    Route::put('/{id}', [CategoriesController::class, 'edit'])->where('id', '[0-9]+');
+    Route::delete('/{id}', [CategoriesController::class, 'delete'])->where('id', '[0-9]+');
+});
+
+Route::group(['prefix'=> 'orders'], function() {
+    Route::get('/', [OrderController::class, 'index']);
+    Route::get('/{id}', [OrderController::class, 'singleCategory'])->where('id', '[0-9]+');
+    Route::post('/', [OrderController::class, 'create']);
+    Route::put('/{id}', [OrderController::class, 'edit'])->where('id', '[0-9]+');
+    Route::delete('/{id}', [OrderController::class, 'delete'])->where('id', '[0-9]+');
 });

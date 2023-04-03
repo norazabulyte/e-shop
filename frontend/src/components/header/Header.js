@@ -1,11 +1,18 @@
+import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import MainContext from '../../context/MainContext';
 
-function Header({ setData }) {
+function Header() {
+    const [search, setSearch] = useState('');
+    const {setData, setRefresh} = useContext(MainContext);
+
     const handleSearch = (e) => {
-        if(e.target.value === '') return; 
+        e.preventDefault();
 
-        axios.get('http://localhost:8000/api/products/s/' + e.target.value)
+        if(search === '') return setRefresh(buvusi => !buvusi);
+
+        axios.get('http://localhost:8000/api/products/s/' + search)
         .then(resp => setData(resp.data));
     }
 
@@ -18,33 +25,29 @@ function Header({ setData }) {
                     </Link>
 
                     <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                        <li><Link to="/admin" className="nav-link px-2 link-secondary">Administratorius</Link></li>
-                        {/* <li><a href="#" className="nav-link px-2 link-dark">Inventory</a></li>
-                        <li><a href="#" className="nav-link px-2 link-dark">Customers</a></li>
-                        <li><a href="#" className="nav-link px-2 link-dark">Products</a></li> */}
+                        <li><Link to="/admin" className="nav-link px-2 link-dar">Administratorius</Link></li>
+                        <li><Link to="/admin/categories" className="nav-link px-2 link-dar">Kategorijos</Link></li>
                     </ul>
 
-                    <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                    <form 
+                        className="mb-3 mb-lg-0 me-lg-3 input-group w-25" 
+                        role="search"
+                        onSubmit={handleSearch}
+                    >
                         <input 
                             type="search" 
                             className="form-control" 
                             placeholder="Search..." 
                             aria-label="Search" 
-                            onKeyUp={handleSearch}
+                            onKeyUp={(e) => setSearch(e.target.value)}
                         />
+                        <button className="btn btn-primary">Ieškoti</button>
                     </form>
 
                     <div className="dropdown text-end">
                         <a href="#" className="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" className="rounded-circle" />
                         </a>
-                        <ul className="dropdown-menu text-small">
-                            <li><a className="dropdown-item" href="#">New project...</a></li>
-                            <li><a className="dropdown-item" href="#">Settings</a></li>
-                            <li><a className="dropdown-item" href="#">Profile</a></li>
-                            <li><hr className="dropdown-divider" /></li>
-                            <li><a className="dropdown-item" href="#">Sign out</a></li>
-                        </ul>
                     </div>
                 </div>
             </div>
